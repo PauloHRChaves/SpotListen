@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!--Configurações de exibição (caracteres especiais/design responsivo)-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--Nome da Aba-->
+    <title>D.Web-PHP</title>
+
+    <!--Font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!--Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io//favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io//favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon_io//site.webmanifest">
+    
+    <!--Toastfy-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
+    <!--Bootstrap Icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    
+    <!--CSS da página-->
+    <link rel="stylesheet" href="../../static/css/login-register.css">
+
+    <style>
+        .toastify{
+            box-shadow: none;
+            font-size: clamp(0.5rem, 1vw, 1.2rem);
+            border-radius: var(--radius);
+            font-family: "Work Sans", sans-serif;
+            font-weight: 600;
+            min-width: 15%;
+            justify-items: center;
+        }
+        .passwordbar{
+            display: flex;
+            position: relative;
+        }
+        .bi{
+            align-self: center;
+            position: absolute;
+            color: black;
+            right: 0;
+            font-size: 1.5rem;
+            width: 30px;
+        }
+    </style>
+
+</head>
+<body>
+    <!--Header-->
+    <header class="header-container" id="header">
+        <nav class="nav-container">
+            <a class="logo" style="text-decoration: none; cursor: pointer; color: inherit;" href="/">
+                <img src="/static/imgs/logo.png" alt="SpotListen" width="120px">
+            </a>
+        </nav>
+    </header>
+
+    <!--Conteudo-->
+    <main>
+        <section id="register-section" class="main-container hidden">
+            <div class="form-container">
+                <h1 class="title">Sign up</h1>
+
+                <form class="form">
+                    <div class="container">
+                        <label class="label" for="register-Email">Email</label>
+                        <input type="email" name="email" autocomplete="email" class="input" id="register-Email" placeholder="example@gmail.com">
+                    </div>
+                    <div class="container">
+                        <label class="label" for="username">Username</label>
+                        <input type="text" name="username" autocomplete="username" class="input" id="username">
+                    </div>
+                    <div class="container">
+                        <label class="label" for="register-password">Senha</label>
+                        <div class="passwordbar">
+                            <input type="password" name="password" class="input" id="register-password">
+                            <i class="bi bi-eye-fill" style="cursor: pointer;margin-right: 0.5rem;" id="togglePassword"></i>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <label class="label" for="confirm-password">Confirmar Senha</label>
+                        <div class="passwordbar">
+                            <input type="password" name="confirm-password" class="input" id="confirm-password">
+                            <i class="bi bi-eye-fill" style="cursor: pointer;margin-right: 0.5rem;" id="togglePassword2"></i>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <div id="register-message-container"></div>
+                    </div>
+                    <button class="sign">Cadastrar</button>
+                </form>
+
+                <p class="signup">Já possui um conta?
+                    <a href="login.html" id="switch-to-login" class="">Sign in</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // const BACKEND_BASE_URL = 'http://127.0.0.1:8131'; 
+        const BACKEND_BASE_URL = 'https://arthritical-vena-supersaintly.ngrok-free.dev';
+
+        // --- Funções de Feedback ---
+        function showToast(mensage) {
+            Toastify({
+                text: mensage,
+                duration: 4000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#013504", 
+            }).showToast();
+        }
+        
+        const regmessageContainer = document.getElementById('register-message-container');
+
+        function showMessagereg(message) {
+            regmessageContainer.textContent = message;
+            regmessageContainer.className = `message-box`; 
+            regmessageContainer.style.display = 'block';
+        }
+
+        // --- Lógica de Registro (Submit) ---
+        const registerForm = document.querySelector("#register-section .form");
+
+        if (registerForm) {
+            registerForm.addEventListener('submit', async (e) => { 
+                e.preventDefault();
+
+                // Coleta de dados (Inputs)
+                const email = document.getElementById('register-Email').value.trim();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('register-password').value.trim();
+                const confirmPassword = document.getElementById('confirm-password').value.trim();
+
+                if (!password || !email || !username || !confirmPassword) {
+                    showMessagereg('Por favor, preencha todos os campos.');
+                    return;
+                }
+                if (username.length < 4) {
+                    showMessagereg('O nome de usuário deve ter no mínimo 4 caracteres.');
+                    return;
+                }
+                if (password.length < 8) {
+                    showMessagereg('A senha deve ter no mínimo 8 caracteres.');
+                    return;
+                }
+                if (password !== confirmPassword) {
+                    showMessagereg('As senhas não coincidem!');
+                    return;
+                }
+
+                const data = {
+                    email: email, 
+                    username: username,
+                    password: password,
+                };
+
+                try {
+                    const registerEndpoint = `${BACKEND_BASE_URL}/register`;
+
+                    const response = await fetch(registerEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json' 
+                        },
+                        body: JSON.stringify(data) 
+                    });
+
+                    if (!response.ok) {
+                        let errorMessage = 'Erro ao registrar usuário.';
+                        try {
+                            const errorData = await response.json();
+                            // Usa a mensagem de erro do servidor
+                            errorMessage = errorData.message || errorMessage; 
+                        } catch (e) {
+                            errorMessage = `Erro do Servidor: Status ${response.status}`;
+                        }
+                        showMessagereg(errorMessage);
+                        return;
+                    }
+
+                    // Sucesso
+                    showToast('CADASTRO REALIZADO! Você será redirecionado para o login.');
+                    // Redireciona para a página de login
+                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+
+                } catch (error) {
+                    console.error('Erro na requisição:', error);
+                    showMessagereg('Erro de rede. Verifique a conexão com o servidor.');
+                }
+            });
+        } else {
+            console.error('Elemento do formulário de registro (#register-section .form) não encontrado.');
+        }
+    </script>
+
+    <script>
+        // --- Lógica de Alternância de Senha (Mantida e Limpa) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const passwordInput = document.getElementById('register-password');
+            const passwordInput2 = document.getElementById('confirm-password');
+            const toggleIcon = document.getElementById('togglePassword');
+            const toggleIcon2 = document.getElementById('togglePassword2');
+
+            // Toggle da primeira senha
+            if (toggleIcon && passwordInput) {
+                toggleIcon.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    
+                    if (type === 'text') {
+                        toggleIcon.classList.remove('bi-eye-fill');
+                        toggleIcon.classList.add('bi-eye-slash-fill');
+                    } else {
+                        toggleIcon.classList.remove('bi-eye-slash-fill');
+                        toggleIcon.classList.add('bi-eye-fill');
+                    }
+                });
+            }
+            
+            // Toggle da confirmação de senha
+            if (toggleIcon2 && passwordInput2) {
+                toggleIcon2.addEventListener('click', function() {
+                    const type = passwordInput2.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput2.setAttribute('type', type);
+                    
+                    if (type === 'text') {
+                        toggleIcon2.classList.remove('bi-eye-fill');
+                        toggleIcon2.classList.add('bi-eye-slash-fill');
+                    } else {
+                        toggleIcon2.classList.remove('bi-eye-slash-fill');
+                        toggleIcon2.classList.add('bi-eye-fill');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

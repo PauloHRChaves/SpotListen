@@ -53,7 +53,11 @@ async function fetchAndRenderArtistsByGenre() {
     updateContentTitle(searchGenre);
 
     try {
-        const response = await fetch(requestUrl);
+        const response = await fetch(requestUrl, {
+            headers: {
+                'Bypass-Tunnel-Reminder': 'true' 
+            }
+        });
         if (!response.ok) throw new Error(`Erro de rede: ${response.status}`);
         
         const data = await response.json();
@@ -101,7 +105,11 @@ async function fetchAndRenderArtistsBySearchTerm(searchTerm) {
     updateContentTitle(`Resultados para "${searchTerm}"`);
 
     try {
-        const response = await fetch(requestUrl);
+        const response = await fetch(requestUrl, {
+            headers: {
+                'Bypass-Tunnel-Reminder': 'true' 
+            }
+        });
         if (!response.ok) throw new Error(`Erro de rede: ${response.status}`);
         
         const data = await response.json();

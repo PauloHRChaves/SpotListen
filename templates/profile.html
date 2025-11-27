@@ -571,6 +571,7 @@
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
+                        'Bypass-Tunnel-Reminder': 'true',
                         'Content-Type': 'application/json',
                     }
                 });
@@ -627,7 +628,10 @@
             try {
                 const response = await fetch(`${PLAYLISTS_URL}?PHPSESSID=${manualSessionId}`, {
                     method: 'GET',
-                    credentials: 'include'
+                    headers: {
+                        'Bypass-Tunnel-Reminder': 'true',
+                    },
+                    credentials: 'include',
                 });
 
                 if (!response.ok) {
@@ -681,7 +685,10 @@
 
                 const response = await fetch(fullUrl, {
                     method: 'GET',
-                    credentials: 'include'
+                    headers: {
+                        'Bypass-Tunnel-Reminder': 'true',
+                    },
+                    credentials: 'include',
                 });
                 
                 if (!response.ok) {
@@ -732,6 +739,9 @@
             try {
                 const response = await fetch(`${MY_TOP_ARTISTS}?PHPSESSID=${manualSessionId}`, {
                     method: 'GET',
+                    headers: {
+                        'Bypass-Tunnel-Reminder': 'true',
+                    },
                     credentials: 'include'
                 });
 
@@ -802,6 +812,7 @@
                 const response = await fetch(unlinkUrl, {
                     method: 'DELETE',
                     headers: {
+                        'Bypass-Tunnel-Reminder': 'true',
                         'Content-Type': 'application/json',
                     }
                 });

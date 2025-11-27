@@ -155,7 +155,8 @@
                 const response = await fetch(loginEndpoint, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json' 
+                        'Content-Type': 'application/json',
+                        'Bypass-Tunnel-Reminder': 'true' 
                     },
                     body: JSON.stringify(data)
                 });

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let isAnimating = false;
 
     try {
-        const responseArtists = await fetch('https://arthritical-vena-supersaintly.ngrok-free.dev/lasfm/top15artists', {
+        const responseArtists = await fetch('https://spotlisten-api.loca.lt/lasfm/top15artists', {
             headers: {
                 'Bypass-Tunnel-Reminder': 'true' 
             }

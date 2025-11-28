@@ -50,14 +50,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Não enviar Content-Type para GET, apenas para POST/DELETE
-    const headers = {};
+    const headers = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+    };
+
     if (req.method !== 'GET') headers['Content-Type'] = 'application/json';
 
     const response = await fetch(url, {
-      method: req.method,
-      headers,
-      body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined,
+        method: req.method,
+        // 🛑 Usa o novo objeto headers
+        headers, 
+        body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined,
     });
 
     // Se o servidor retornar erro, envia o texto de erro sem tentar parsear JSON
@@ -79,7 +82,7 @@ export default async function handler(req, res) {
     }
 
   } catch (err) {
-    console.error('Erro no proxy:', err);
-    res.status(500).json({ message: "Erro no proxy" });
+      console.error('Erro no proxy:', err);
+      res.status(500).json({ message: "Erro no proxy" });
   }
 }

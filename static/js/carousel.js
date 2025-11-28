@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let isAnimating = false;
 
     try {
-        const responseArtists = await fetch('/lasfm/top15artists');
+        const responseArtists = await fetch('/api/proxy?type=top15artists');
         const dataArtists = await responseArtists.json();
 
         shw.classList.remove('no');
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sectionTracks = document.getElementById('top-tracks-section');
 
     try {
-        const responseTracks = await fetch('/api/top15tracks');
+        const responseTracks = await fetch('/api/proxy?type=top15tracks');
         const dataTracks = await responseTracks.json();
 
         sectionTracks.classList.remove('no');

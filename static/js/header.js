@@ -1,11 +1,8 @@
 // =========================================================
 // CONFIGURAÇÃO DE URI
 
-// const BACKEND_BASE_URL = 'http://127.0.0.1:8131'; 
-const BACKEND_BASE_URL = 'https://spotlisten.infinityfreeapp.com/'; 
+// const BACKEND_BASE_URL = 'http://127.0.0.1:8131';
 
-const LOGOUT_ENDPOINT = '/api/logout';
-const LOGGED_IN_ENDPOINT = '/api/loggedIn';
 const HEADER_HTML_PATH = '/templates/header.html';
 const ROOT_PATH = '/';
 
@@ -28,11 +25,8 @@ function setupLogout() {
             event.preventDefault();
 
             try {
-                const response = await fetch(LOGOUT_ENDPOINT, { 
+                const response = await fetch(`/api/proxy?type=logout`, { 
                     method: 'POST',
-                    headers: {
-                        'Bypass-Tunnel-Reminder': 'true' 
-                    }
                 });
 
                 if (response.ok) {
@@ -56,11 +50,9 @@ async function checkLoginStatus() {
         document.body.classList.add('is-logged-out');
         return false;
     }
-    
-    const url = `${LOGGED_IN_ENDPOINT}?PHPSESSID=${manualSessionId}`; 
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`/api/proxy?type=loggedIn&PHPSESSID=${manualSessionId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

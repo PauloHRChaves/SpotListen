@@ -167,9 +167,7 @@
                 };
 
                 try {
-                    const registerEndpoint = `/api/register`;
-
-                    const response = await fetch(registerEndpoint, {
+                    const response = await fetch(`/api/proxy?type=register`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

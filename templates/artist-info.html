@@ -682,10 +682,8 @@
             showLoading(artistName);
             setupContentForLoading(); 
 
-            const endpoint = `/api/infoArtist?artist=${encodeURIComponent(artistName)}`;
-
             try {
-                const response = await fetch(endpoint);
+                const response = await fetch(`/api/proxy?type=infoArtist?artist=${encodeURIComponent(artistName)}`);
 
                 if (!response.ok) {
                     throw new Error(`Erro HTTP: ${response.status}`);

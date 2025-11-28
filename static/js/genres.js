@@ -49,7 +49,7 @@ async function fetchAndRenderArtistsByGenre() {
     updateContentTitle(searchGenre);
 
     try {
-        const response = await fetch(`/api/searchGenre?q=${encodeURIComponent(searchGenre)}&limit=${limit}&offset=${currentOffset}`);
+        const response = await fetch(`/api/proxy?type=searchGenre&q=${encodeURIComponent(searchGenre)}&limit=${limit}&offset=${currentOffset}`);
         if (!response.ok) throw new Error(`Erro de rede: ${response.status}`);
         
         const data = await response.json();
@@ -95,7 +95,7 @@ async function fetchAndRenderArtistsBySearchTerm(searchTerm) {
     updateContentTitle(`Resultados para "${searchTerm}"`);
 
     try {
-        const response = await fetch(`/api/searchArtist?q=${encodeURIComponent(searchTerm)}`);
+        const response = await fetch(`/api/proxy?type=searchArtist&q=${encodeURIComponent(searchTerm)}`);
         if (!response.ok) throw new Error(`Erro de rede: ${response.status}`);
         
         const data = await response.json();

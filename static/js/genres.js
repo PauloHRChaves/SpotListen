@@ -4,8 +4,8 @@ let currentSearchTerm = params.get('query') || '';
 let currentOffset = 0;
 const limit = 25;
 
-const API_GENRE_URL = `https://spotlisten-api.loca.ltspotify/search/genre`;
-const API_ARTIST_SEARCH_URL = `https://spotlisten-api.loca.lt/spotify/search/artist`;
+const API_GENRE_URL = `https://spotlisten.infinityfreeapp.com/search/genre`;
+const API_ARTIST_SEARCH_URL = `https://spotlisten.infinityfreeapp.com/spotify/search/artist`;
 
 let container, prevButton, nextButton, pageInfo, tagsContainer, searchInput, searchButton;
 
@@ -53,11 +53,7 @@ async function fetchAndRenderArtistsByGenre() {
     updateContentTitle(searchGenre);
 
     try {
-        const response = await fetch(requestUrl, {
-            headers: {
-                'Bypass-Tunnel-Reminder': 'true' 
-            }
-        });
+        const response = await fetch(requestUrl);
         if (!response.ok) throw new Error(`Erro de rede: ${response.status}`);
         
         const data = await response.json();

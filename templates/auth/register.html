@@ -109,7 +109,7 @@
 
     <script>
         // const BACKEND_BASE_URL = 'http://127.0.0.1:8131'; 
-        const BACKEND_BASE_URL = 'https://spotlisten-api.loca.lt';
+        const BACKEND_BASE_URL = 'https://spotlisten.infinityfreeapp.com/';
 
         // --- Funções de Feedback ---
         function showToast(mensage) {
@@ -173,7 +173,6 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Bypass-Tunnel-Reminder': 'true' 
                         },
                         body: JSON.stringify(data) 
                     });

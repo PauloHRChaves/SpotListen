@@ -497,7 +497,15 @@
 
         // --- VARIÁVEIS DE URL DA API ---
         // const BASE_URL = 'http://127.0.0.1:8131';
-        const LOGIN_URL = 'https://spot-listen.vercel.app/templates/auth/login.html';
+        const BASE_URL = 'https://spotlisten-api.loca.lt';
+        
+        const LOGIN_URL = 'http://127.0.0.1:8132/templates/auth/login.html';
+
+        const LOGGED_IN_URL = `${BASE_URL}/logged-in`;
+        const PLAYLISTS_URL = `${BASE_URL}/spotify/my/playlists`;
+        const RECENT_TRACKS_URL_BASE = `${BASE_URL}/spotify/my/recent-tracks`;
+        const MY_TOP_ARTISTS = `${BASE_URL}/spotify/my/top-artists`;
+        const UNLINK_URL = `${BASE_URL}/spotify/unlink`;
 
         // --- FUNÇÕES DE UTILIDADE ---
 
@@ -558,7 +566,7 @@
                 return false;
             }
 
-            const url = `/api/proxy?type=loggedIn&PHPSESSID=${manualSessionId}`;
+            const url = `${LOGGED_IN_URL}?PHPSESSID=${manualSessionId}`;
 
             try {
                 const response = await fetch(url, {
@@ -618,9 +626,9 @@
             }
 
             try {
-                const response = await fetch(`/api/proxy?type=myPlaylists&PHPSESSID=${manualSessionId}`, {
+                const response = await fetch(`${PLAYLISTS_URL}?PHPSESSID=${manualSessionId}`, {
                     method: 'GET',
-                    credentials: 'include',
+                    credentials: 'include'
                 });
 
                 if (!response.ok) {
@@ -670,11 +678,11 @@
             container.innerHTML = '';
 
             try {
-                const fullUrl = `/api/proxy?type=myTopArtists&PHPSESSID=${manualSessionId}`;
+                const fullUrl = `${RECENT_TRACKS_URL_BASE}?PHPSESSID=${manualSessionId}`;
 
                 const response = await fetch(fullUrl, {
                     method: 'GET',
-                    credentials: 'include',
+                    credentials: 'include'
                 });
                 
                 if (!response.ok) {
@@ -723,7 +731,7 @@
             container.innerHTML = ''; 
             
             try {
-                const response = await fetch(`/api/proxy?type=myTopArtists&PHPSESSID=${manualSessionId}`, {
+                const response = await fetch(`${MY_TOP_ARTISTS}?PHPSESSID=${manualSessionId}`, {
                     method: 'GET',
                     credentials: 'include'
                 });
@@ -789,7 +797,7 @@
                 return; 
             }
 
-            const unlinkUrl = `/api/proxy?type=unlink&PHPSESSID=${manualSessionId}`;
+            const unlinkUrl = `${UNLINK_URL}?PHPSESSID=${manualSessionId}`;
 
             try {
                 const response = await fetch(unlinkUrl, {

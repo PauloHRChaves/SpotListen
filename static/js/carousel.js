@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     let items = [];
     let currentIndex = 0;
     let isAnimating = false;
-
+    
     try {
-        const responseArtists = await fetch('/api/proxy?type=top15artists');
+        const responseArtists = await fetch('https://spotlisten-api.loca.lt/lasfm/top15artists');
         const dataArtists = await responseArtists.json();
 
         shw.classList.remove('no');
@@ -32,10 +32,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             items.push(item);
         });
 
-        // Funções do Carrossel
+        // Funções do Carrossel (Definidas AQUI DENTRO da função principal)
         function updateCarousel() {
             const total = items.length;
             items.forEach((item, index) => {
+                // ... (toda a sua lógica de classes de posição)
                 item.classList.remove('position-left-3','position-left-2','position-left-1','position-center','position-right-1','position-right-2','position-right-3','position-far-left','position-far-right');
                 
                 let pos = index - currentIndex;
@@ -103,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sectionTracks = document.getElementById('top-tracks-section');
 
     try {
-        const responseTracks = await fetch('/api/proxy?type=top15tracks');
+        const responseTracks = await fetch('https://spotlisten-api.loca.lt/lasfm/top15tracks');
         const dataTracks = await responseTracks.json();
 
         sectionTracks.classList.remove('no');

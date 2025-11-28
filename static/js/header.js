@@ -1,8 +1,10 @@
 // =========================================================
 // CONFIGURAÇÃO DE URI
 
-// const BACKEND_BASE_URL = 'http://127.0.0.1:8131';
+const BACKEND_BASE_URL = 'https://spotlisten-api.loca.lt';
 
+const LOGOUT_ENDPOINT = `${BACKEND_BASE_URL}/logout`;
+const LOGGED_IN_ENDPOINT = `${BACKEND_BASE_URL}/logged-in`;
 const HEADER_HTML_PATH = '/templates/header.html';
 const ROOT_PATH = '/';
 
@@ -25,7 +27,7 @@ function setupLogout() {
             event.preventDefault();
 
             try {
-                const response = await fetch(`/api/proxy?type=logout`, { 
+                const response = await fetch(LOGOUT_ENDPOINT, { 
                     method: 'POST',
                 });
 
@@ -50,9 +52,11 @@ async function checkLoginStatus() {
         document.body.classList.add('is-logged-out');
         return false;
     }
+    
+    const url = `${LOGGED_IN_ENDPOINT}?PHPSESSID=${manualSessionId}`; 
 
     try {
-        const response = await fetch(`/api/proxy?type=loggedIn&PHPSESSID=${manualSessionId}`, {
+        const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

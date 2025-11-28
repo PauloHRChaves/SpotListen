@@ -2,7 +2,7 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-  const { type, PHPSESSID, q, artist, genre } = req.query;
+  const { type, PHPSESSID, q, artist } = req.query;
   let url;
 
   switch (type) {
@@ -50,25 +50,35 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Não enviar Content-Type para GET, apenas para POST/DELETE
+    const headers = {};
+    if (req.method !== 'GET') headers['Content-Type'] = 'application/json';
+
     const response = await fetch(url, {
       method: req.method,
-      headers: { 'Content-Type': 'application/json' },
-      body: req.method === 'POST' ? JSON.stringify(req.body) : undefined,
+      headers,
+      body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined,
     });
 
-    // DEBUG: se o status não for 200
+    // Se o servidor retornar erro, envia o texto de erro sem tentar parsear JSON
     if (!response.ok) {
       const text = await response.text();
-      console.error('Resposta do servidor:', text);
+      console.error('Erro do InfinityFree:', text);
       return res.status(response.status).send(text);
     }
 
-    const data = await response.json();
-    res.status(200).json(data);
+    // Tenta parsear JSON, mas só se for válido
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await response.json();
+      return res.status(200).json(data);
+    } else {
+      const text = await response.text();
+      return res.status(200).send(text);
+    }
 
   } catch (err) {
     console.error('Erro no proxy:', err);
     res.status(500).json({ message: "Erro no proxy" });
   }
-
 }

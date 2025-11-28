@@ -29,6 +29,9 @@ function setupLogout() {
             try {
                 const response = await fetch(LOGOUT_ENDPOINT, { 
                     method: 'POST',
+                    headers:{
+                        'Bypass-Tunnel-Reminder': 'true',
+                    }
                 });
 
                 if (response.ok) {
@@ -59,6 +62,7 @@ async function checkLoginStatus() {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
+                'Bypass-Tunnel-Reminder': 'true',
                 'Content-Type': 'application/json',
             },
         });

@@ -11,7 +11,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     let isAnimating = false;
     
     try {
-        const responseArtists = await fetch('https://spotlisten-api.loca.lt/lasfm/top15artists');
+        const responseArtists = await fetch('https://spotlisten-api.loca.lt/lasfm/top15artists', {
+            headers:{
+                'Bypass-Tunnel-Reminder': 'true',
+            }
+        });
         const dataArtists = await responseArtists.json();
 
         shw.classList.remove('no');
@@ -104,7 +108,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sectionTracks = document.getElementById('top-tracks-section');
 
     try {
-        const responseTracks = await fetch('https://spotlisten-api.loca.lt/lasfm/top15tracks');
+        const responseTracks = await fetch('https://spotlisten-api.loca.lt/lasfm/top15tracks', {
+            headers:{
+                'Bypass-Tunnel-Reminder': 'true',
+            }
+        });
         const dataTracks = await responseTracks.json();
 
         sectionTracks.classList.remove('no');

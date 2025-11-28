@@ -686,7 +686,12 @@
             const endpoint = `${BASE_URL}/info/artists?artist=${encodeURIComponent(artistName)}`;
 
             try {
-                const response = await fetch(endpoint);
+                const response = await fetch(endpoint,{
+                        headers:{
+                            'Bypass-Tunnel-Reminder': 'true',
+                        }
+                    }
+                );
 
                 if (!response.ok) {
                     throw new Error(`Erro HTTP: ${response.status}`);

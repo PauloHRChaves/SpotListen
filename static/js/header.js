@@ -4,8 +4,8 @@
 // const BACKEND_BASE_URL = 'http://127.0.0.1:8131'; 
 const BACKEND_BASE_URL = 'https://spotlisten.infinityfreeapp.com/'; 
 
-const LOGOUT_ENDPOINT = `${BACKEND_BASE_URL}/logout`;
-const LOGGED_IN_ENDPOINT = `${BACKEND_BASE_URL}/logged-in`;
+const LOGOUT_ENDPOINT = '/api/logout';
+const LOGGED_IN_ENDPOINT = '/api/loggedIn';
 const HEADER_HTML_PATH = '/templates/header.html';
 const ROOT_PATH = '/';
 
@@ -30,6 +30,9 @@ function setupLogout() {
             try {
                 const response = await fetch(LOGOUT_ENDPOINT, { 
                     method: 'POST',
+                    headers: {
+                        'Bypass-Tunnel-Reminder': 'true' 
+                    }
                 });
 
                 if (response.ok) {

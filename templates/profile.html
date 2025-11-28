@@ -500,11 +500,11 @@
         const BASE_URL = 'https://spotlisten.infinityfreeapp.com/'; 
         const LOGIN_URL = 'https://spot-listen.vercel.app/templates/auth/login.html';
 
-        const LOGGED_IN_URL = `${BASE_URL}/logged-in`;
-        const PLAYLISTS_URL = `${BASE_URL}/spotify/my/playlists`;
-        const RECENT_TRACKS_URL_BASE = `${BASE_URL}/spotify/my/recent-tracks`;
-        const MY_TOP_ARTISTS = `${BASE_URL}/spotify/my/top-artists`;
-        const UNLINK_URL = `${BASE_URL}/spotify/unlink`;
+        const LOGGED_IN_URL = `/api/loggedIn`;
+        const PLAYLISTS_URL = '/api/myPlaylists';
+        const RECENT_TRACKS_URL_BASE = '/api/recentTracks';
+        const MY_TOP_ARTISTS = '/api/myTopArtists';
+        const UNLINK_URL = '/api/unlink';
 
         // --- FUNÇÕES DE UTILIDADE ---
 
@@ -571,7 +571,6 @@
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
-                        'Bypass-Tunnel-Reminder': 'true',
                         'Content-Type': 'application/json',
                     }
                 });
@@ -628,9 +627,6 @@
             try {
                 const response = await fetch(`${PLAYLISTS_URL}?PHPSESSID=${manualSessionId}`, {
                     method: 'GET',
-                    headers: {
-                        'Bypass-Tunnel-Reminder': 'true',
-                    },
                     credentials: 'include',
                 });
 
@@ -685,9 +681,6 @@
 
                 const response = await fetch(fullUrl, {
                     method: 'GET',
-                    headers: {
-                        'Bypass-Tunnel-Reminder': 'true',
-                    },
                     credentials: 'include',
                 });
                 
@@ -739,9 +732,6 @@
             try {
                 const response = await fetch(`${MY_TOP_ARTISTS}?PHPSESSID=${manualSessionId}`, {
                     method: 'GET',
-                    headers: {
-                        'Bypass-Tunnel-Reminder': 'true',
-                    },
                     credentials: 'include'
                 });
 

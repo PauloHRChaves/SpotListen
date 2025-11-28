@@ -4,9 +4,6 @@ let currentSearchTerm = params.get('query') || '';
 let currentOffset = 0;
 const limit = 25;
 
-const API_GENRE_URL = `https://spotlisten.infinityfreeapp.com/search/genre`;
-const API_ARTIST_SEARCH_URL = `https://spotlisten.infinityfreeapp.com/spotify/search/artist`;
-
 let container, prevButton, nextButton, pageInfo, tagsContainer, searchInput, searchButton;
 
 function renderArtistCard(artist) {
@@ -45,7 +42,6 @@ function updateContentTitle(title) {
 async function fetchAndRenderArtistsByGenre() {
 
     const searchGenre = currentGenre === '' ? 'pop' : currentGenre;
-    const requestUrl = `${API_GENRE_URL}?genre=${encodeURIComponent(searchGenre)}&limit=${limit}&offset=${currentOffset}`;
     
     if (container) container.innerHTML = '<p class="loading-message">Carregando artistas...</p>';
     if (prevButton) prevButton.disabled = true;
@@ -53,7 +49,7 @@ async function fetchAndRenderArtistsByGenre() {
     updateContentTitle(searchGenre);
 
     try {
-        const response = await fetch(requestUrl);
+        const response = await fetch(`/api/searchGenre?q=${encodeURIComponent(searchGenre)}&limit=${limit}&offset=${currentOffset}`);
         if (!response.ok) throw new Error(`Erro de rede: ${response.status}`);
         
         const data = await response.json();
@@ -93,19 +89,13 @@ async function fetchAndRenderArtistsBySearchTerm(searchTerm) {
         return;
     }
 
-    const requestUrl = `${API_ARTIST_SEARCH_URL}?name=${encodeURIComponent(searchTerm)}`;
-
     if (container) container.innerHTML = '<p class="loading-message">Buscando artistas...</p>';
     if (prevButton) prevButton.disabled = true;
     if (nextButton) nextButton.disabled = true;
     updateContentTitle(`Resultados para "${searchTerm}"`);
 
     try {
-        const response = await fetch(requestUrl, {
-            headers: {
-                'Bypass-Tunnel-Reminder': 'true' 
-            }
-        });
+        const response = await fetch(`/api/searchArtist?q=${encodeURIComponent(searchTerm)}`);
         if (!response.ok) throw new Error(`Erro de rede: ${response.status}`);
         
         const data = await response.json();

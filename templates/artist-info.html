@@ -490,7 +490,6 @@
 
     <script>
         // const BASE_URL = 'http://127.0.0.1:8131';
-        const BASE_URL = 'https://spotlisten.infinityfreeapp.com/'; 
 
         // --- ESTRUTURA INICIAL DO CONTEÚDO ---
         const ALL_CONTENT_STRUCTURE = `
@@ -683,7 +682,7 @@
             showLoading(artistName);
             setupContentForLoading(); 
 
-            const endpoint = `${BASE_URL}/info/artists?artist=${encodeURIComponent(artistName)}`;
+            const endpoint = `/api/infoArtist?artist=${encodeURIComponent(artistName)}`;
 
             try {
                 const response = await fetch(endpoint);

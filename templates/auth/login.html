@@ -108,8 +108,7 @@
     
     <!--Validação de Login-->
     <script>
-        // const BACKEND_BASE_URL = 'http://127.0.0.1:8131'; 
-        const BACKEND_BASE_URL = 'https://spotlisten.infinityfreeapp.com/'; 
+        // const BACKEND_BASE_URL = 'http://127.0.0.1:8131';
 
         // --- Funções de Feedback ---
 
@@ -150,7 +149,7 @@
             };
 
             try {
-                const loginEndpoint = `${BACKEND_BASE_URL}/login`;
+                const loginEndpoint = `$/api/login`;
 
                 const response = await fetch(loginEndpoint, {
                     method: 'POST',

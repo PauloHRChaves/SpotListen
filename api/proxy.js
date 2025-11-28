@@ -52,16 +52,23 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(url, {
       method: req.method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: req.method === 'POST' ? JSON.stringify(req.body) : undefined,
     });
 
+    // DEBUG: se o status não for 200
+    if (!response.ok) {
+      const text = await response.text();
+      console.error('Resposta do servidor:', text);
+      return res.status(response.status).send(text);
+    }
+
     const data = await response.json();
     res.status(200).json(data);
+
   } catch (err) {
-    console.error(err);
+    console.error('Erro no proxy:', err);
     res.status(500).json({ message: "Erro no proxy" });
   }
+
 }

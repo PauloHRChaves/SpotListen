@@ -69,12 +69,13 @@ export default async function handler(req, res) {
 
     // Tenta parsear JSON, mas só se for válido
     const contentType = response.headers.get('content-type') || '';
+    let data;
     if (contentType.includes('application/json')) {
-      const data = await response.json();
-      return res.status(200).json(data);
+      data = await response.json();
     } else {
       const text = await response.text();
-      return res.status(200).send(text);
+      console.error('Erro remoto:', text);
+      return;
     }
 
   } catch (err) {
